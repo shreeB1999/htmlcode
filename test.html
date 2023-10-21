@@ -1,0 +1,77 @@
+define(
+   [
+      'dojo/_base/declare',
+      'dgrid/OnDemandGrid',
+      'dojo/html',
+      'dgrid/Selection',
+			'dgrid/extensions/DijitRegistry'
+   ],
+   function(declare, GridBase, html, DgridSelection, DijitRegistry)
+   {
+      var pGrid = declare([GridBase, DgridSelection, DijitRegistry],
+      {
+         columns:
+         {
+            name: {
+               field: 'Name',
+               label: 'Name',
+               renderCell: function(item, value, node, options)
+               {
+                  value = item.Name;
+                  html.set(node, value);
+                  return value;
+               }
+            },
+            value: {
+               field: '_Value',
+               label: 'Simple Value',
+            },
+            namespaceName: {
+               field: 'NamespaceName',
+               label: 'Namespace Name',
+            },
+            type: {
+               field: 'Type',
+               label: 'Type',
+            }
+         },
+         constructor:function (args)
+         {
+            // Call Super
+            dojo.safeMixin(this, args);
+         },
+         postCreate:function (args)
+         {
+            this.inherited(arguments);
+
+            this.renderArray([
+               {Name: "test row 1", _Value: "under value", NamespaceName: "nsn", Type: "test row"},
+               {Name: "test row 2", _Value: "under value", NamespaceName: "nsn", Type: "test row"},
+               {Name: "test row 3", _Value: "under value", NamespaceName: "nsn", Type: "test row"},
+               {Name: "test row 4", _Value: "under value", NamespaceName: "nsn", Type: "test row"},
+               {Name: "test row 5", _Value: "under value", NamespaceName: "nsn", Type: "test row"},
+               {Name: "test row 6", _Value: "under value", NamespaceName: "nsn", Type: "test row"},
+               {Name: "test row 7", _Value: "under value", NamespaceName: "nsn", Type: "test row"}
+            ]);
+
+            this.on("dgrid-select", dojo.hitch(this, function(event){
+               // get the rows that were just selected
+               var rows = event.rows;
+               for(var row in rows)
+               {
+                  console.log(rows[row].data);
+               }
+
+            }));
+
+            this.on(".dgrid-row:contextmenu", dojo.hitch(this, function(evt){
+               evt.preventDefault(); // prevent default browser context menu 
+               // create or popup a menu here 
+               console.log(this.row(evt).data);
+            })); 
+
+         }
+      });
+      return pGrid;
+   }
+);

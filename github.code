@@ -1,0 +1,40 @@
+define(
+   [
+      'dojo/_base/declare',
+      'dijit/layout/BorderContainer',
+      'dijit/layout/TabContainer',
+      'dijit/layout/ContentPane',
+      'test/Dgrid'
+   ],
+   function(declare, BC, TC, CP, Dgrid)
+   {
+      return declare([BC],
+      {
+         design:"sidebar",
+         gutters:"true",
+         liveSplitters:"true",
+         style:"width: 100%; height: 100%;",
+         constructor:function (args)
+         {
+            // Call Super
+            dojo.safeMixin(this, args);
+         },
+         postCreate:function (args)
+         {
+            var pPane = new CP({
+              region: "center",
+              style:               "height:40%; width:50%",
+              splitter:            "false"
+            });
+            this.addChild(pPane);
+
+            // WILL ERROR HERE
+            var pDgrid = new Dgrid({
+            }, pPane.domNode);
+
+            var pTC = new TC({
+               region:     "bottom",
+               style:      "height:60%; width:100%",
+               splitter:   "false"
+            });
+            this.addChild(pTC);
