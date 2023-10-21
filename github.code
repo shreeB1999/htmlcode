@@ -1,4 +1,4 @@
-define(
+ define(
    [
       'dojo/_base/declare',
       'dijit/layout/BorderContainer',
@@ -38,3 +38,6 @@ define(
                splitter:   "false"
             });
             this.addChild(pTC);
+
+
+
